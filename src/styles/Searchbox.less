@@ -1,0 +1,121 @@
+.searchbox-root {
+    display: inline-flex;
+    font-family: helvetica, Arial, sans-serif;
+    height: 37px;
+    width: 100%;
+    position: relative;
+    .hidden {
+        display: none;
+    }
+    .Red {
+        background: red;
+    }
+    .Green {
+        background: green;
+    }
+    .expand {
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-right: 35px solid gray;
+        border-bottom: 15px solid transparent;
+    }
+    .shrink {
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 30px solid gray;
+    }
+    .interaction-area {
+        //border: 1px solid brown;
+        display: flex;
+        position: relative;
+        .suggestions {
+            position: absolute;
+            top: 40px;
+            background: #ccc;
+            opacity: 0.8;
+            .suggested-term {
+                padding: 5px;
+                margin: 5px;
+                cursor: pointer;
+                border-bottom: .5px solid gray;
+            }
+        }
+    }
+    .output-area {
+        display: inline-flex;
+        width: 30%; //border: 1px solid brown;
+        position: relative;
+        .tag-settings {
+            position: absolute;
+            left: 20px;
+            top: 50px;
+            background: gray;
+            width: 50%;
+            .half-width {
+                width: 50%;
+                display: inline-block;
+                height: 100%;
+            }
+            .tag-settings-header {
+                text-align: center;
+            }
+            .tag-settings-body {
+                ul {
+                    list-style: none;
+                    .tag-label {
+                        padding: 2px;
+                        text-align: center;
+                        cursor: pointer;
+                    }
+                }
+                .tag-settings-body-left {
+                    .half-width;
+                }
+                .tag-settings-body-right {
+                    .half-width;
+                }
+            }
+        }
+        .active-tags {
+            background: white;
+            .search-term {
+                display: inline-flex;
+                border-radius: 3px;
+                padding: 2px 4px;
+                margin: 5px;
+                background: #ccc;
+                position: relative;
+                .close-sign {
+                    margin-left: 5px;
+                    float: right;
+                    &:after {
+                        content: "x";
+                        text-align: right;
+                        font-weight: bold;
+                    }
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+                .toggle-tag-settings {
+                    width: 30px;
+                    height: 20px;
+                    cursor: pointer;
+                }
+            }
+        }
+        .toggle-terms {
+            cursor: pointer;
+            padding: 2px;
+            margin: 2px;
+        }
+        .terms-count {
+            font-size: 25px;
+            font-weight: bold;
+            color: gray;
+        }
+    }
+}

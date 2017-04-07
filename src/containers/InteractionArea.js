@@ -4,6 +4,13 @@ import Controls from '../components/Controls';
 import SuggestionsList from '../components/SuggestionsList';
 
 class InteractionArea extends Component {
+    static propTypes = {
+        onTermEnter: React.PropTypes.func.isRequired,
+        suggestionsPool: React
+            .PropTypes
+            .arrayOf(React.PropTypes.string)
+    };
+
     constructor(props) {
         super(props);
 
@@ -56,7 +63,7 @@ class InteractionArea extends Component {
                 return Object.assign({}, prevState, {suggestions: []});
             });
         }
-    }
+    };
 
     onSuggestionClick = (term) => {
         this
@@ -66,7 +73,7 @@ class InteractionArea extends Component {
         this.setState(prevState => {
             return {inputValue: '', suggestions: []}
         });
-    }
+    };
 
     onTermAdd = () => {
         if (this.state.inputValue) {
@@ -79,7 +86,8 @@ class InteractionArea extends Component {
                 return {inputValue: '', suggestions: []}
             });
         }
-    }
+    };
+
     onTermEnter = () => {
         if (this.state.inputValue) {
             const enteredTerm = this.state.inputValue;
@@ -91,14 +99,7 @@ class InteractionArea extends Component {
                 return {inputValue: '', suggestions: []}
             });
         }
-    }
-
-    static propTypes = {
-        onTermEnter: React.PropTypes.func.isRequired,
-        suggestionsPool: React
-            .PropTypes
-            .arrayOf(React.PropTypes.string)
-    }
+    };
 }
 
 export default InteractionArea;

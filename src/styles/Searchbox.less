@@ -4,14 +4,12 @@
     height: 37px;
     width: 100%;
     position: relative;
-    .hidden {
-        display: none;
+
+    .hidden-top {
+        top: -500px !important;
     }
-    .Red {
-        background: red;
-    }
-    .Green {
-        background: green;
+    .hidden-left {
+        left: -1000px !important;
     }
     .expand {
         width: 0;
@@ -28,7 +26,6 @@
         border-top: 30px solid gray;
     }
     .interaction-area {
-        //border: 1px solid brown;
         display: flex;
         position: relative;
         .suggestions {
@@ -46,33 +43,54 @@
     }
     .output-area {
         display: inline-flex;
-        width: 30%; //border: 1px solid brown;
+        width: 50%; //border: 1px solid brown;
         position: relative;
         .tag-settings {
             position: absolute;
-            left: 20px;
-            top: 50px;
+            left: 50%;
+            top: 70px;
             background: gray;
-            width: 50%;
+            width: 100%;
+            transition: .5s all ease-in-out;
+            padding: 5px;
             .half-width {
                 width: 50%;
-                display: inline-block;
                 height: 100%;
             }
             .tag-settings-header {
                 text-align: center;
-            }
-            .tag-settings-body {
-                ul {
-                    list-style: none;
-                    .tag-label {
-                        padding: 2px;
-                        text-align: center;
+                padding: 10px;
+                border-bottom: 1px solid black;
+                .tag-settings-title {
+                    display: inline;
+                }
+                .close-sign {
+                    position: absolute;
+                    right: 4px;
+                    top: 4px;
+                    &:after {
+                        content: "x";
+                        text-align: right;
+                        font-weight: bold;
+                        font-size: 30px;
+                        padding: 1px;
+                    }
+                    &:hover {
                         cursor: pointer;
                     }
                 }
+            }
+            .tag-settings-body {
+                display: flex;
+                .tag-label {
+                    padding: 2px;
+                    text-align: center;
+                    cursor: pointer;
+                    height: 30px;
+                }
                 .tag-settings-body-left {
                     .half-width;
+                    margin-right: 10px;
                 }
                 .tag-settings-body-right {
                     .half-width;
@@ -81,6 +99,8 @@
         }
         .active-tags {
             background: white;
+            transition: all .5s ease-in-out;
+            overflow: hidden;
             .search-term {
                 display: inline-flex;
                 border-radius: 3px;
@@ -88,18 +108,6 @@
                 margin: 5px;
                 background: #ccc;
                 position: relative;
-                .close-sign {
-                    margin-left: 5px;
-                    float: right;
-                    &:after {
-                        content: "x";
-                        text-align: right;
-                        font-weight: bold;
-                    }
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
                 .toggle-tag-settings {
                     width: 30px;
                     height: 20px;

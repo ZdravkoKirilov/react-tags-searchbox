@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 
 class TermsInput extends Component {
+    static propTypes = {
+        onChangeCallback: React.PropTypes.func.isRequired,
+        onEnterPress: React.PropTypes.func.isRequired,
+        value: React.PropTypes.string.isRequired
+    };
     render = () => {
         return (
             <div>
@@ -13,24 +18,22 @@ class TermsInput extends Component {
                     className="form-control"/>
             </div>
         );
-    }
+    };
 
     onChange = (event) => {
         const value = event.target.value;
-        this.props.onChangeCallback(value);
-    }
+        this
+            .props
+            .onChangeCallback(value);
+    };
 
     onEnterPress = (event) => {
-       if (event.key === 'Enter') {
-           this.props.onEnterPress();
-       }
+        if (event.key === 'Enter') {
+            this
+                .props
+                .onEnterPress();
+        }
     }
-
-    static propTypes = {
-        onChangeCallback: React.PropTypes.func.isRequired,
-        onEnterPress: React.PropTypes.func.isRequired,
-        value: React.PropTypes.string.isRequired
-    }
-};
+}
 
 export default TermsInput;

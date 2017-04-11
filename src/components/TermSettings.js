@@ -1,57 +1,61 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import TermLabel from './TermLabel';
 
 class TermSettings extends Component {
-    static propTypes = {
-        isVisible: React.PropTypes.bool.isRequired,
-        title: React.PropTypes.string,
-        labels: React.PropTypes.object,
-        onLabelClick: React.PropTypes.func.isRequired,
-        onClose: React.PropTypes.func.isRequired,
-        onTermRemove: React.PropTypes.func.isRequired
-    };
+	static propTypes = {
+		isVisible: PropTypes.bool.isRequired,
+		title: PropTypes.string,
+		labels: PropTypes.object,
+		onLabelClick: PropTypes.func.isRequired,
+		onClose: PropTypes.func.isRequired,
+		onTermRemove: PropTypes.func.isRequired,
+		selectedTerm: PropTypes.any
+	};
 
-    static defaultProps = {
-        labels: []
-    };
-    render = () => {
-        const {isVisible, title} = this.props;
-        const cssClass = isVisible
-            ? 'tag-settings'
-            : 'tag-settings hidden-left';
+	static defaultProps = {
+		labels: []
+	};
+	render = () => {
+		const {isVisible, title, labels, selectedTerm, onLabelClick, onTermRemove} = this.props;
+		const cssClass = isVisible ? 'tag-settings' : 'tag-settings hidden-left';
 
-        let labels = [];
-        for (let key in this.props.labels) {
-            const component = <TermLabel
-                {...this.props.labels[key]}
-                key={key}
-                onLabelClick={this.props.onLabelClick}/>;
-            labels.push(component);
-        }
+		let _labels = [];
+		for (let key in labels) {
+			let isSelected = (selectedTerm && selectedTerm.label) ? (selectedTerm.label.toLowerCase() === key.toLowerCase()) : false;
+			const component = <TermLabel
+				{...labels[key]}
+				key={key}
+				onLabelClick={onLabelClick}
+				isSelected={isSelected}
+			/>;
+			_labels.push(component);
+		}
+		const labelSectionTitle = _labels.length > 0 ? 'Pick a label' : 'No labels to show';
 
-        return <div className={cssClass}>
+		return <div className={cssClass}>
 
-            <div className="tag-settings-header">
-                <h3 className="tag-settings-title">{title}</h3>
-                <span className="close-sign" onClick={this.onClose}></span>
-            </div>
+			<div className="tag-settings-header">
+				<h3 className="tag-settings-title">{title}</h3>
+				<p className="btn btn-default done" onClick={this.onClose}>Done</p>
+			</div>
 
-            <div className="tag-settings-body">
-                <div className="tag-settings-body-left">
-                    <h5>Pick label</h5>
-                    {labels}
-                </div>
-                <div className="tag-settings-body-right">
-                    <h5>Edit</h5>
-                    <p className="btn btn-danger" onClick={this.props.onTermRemove}>Remove</p>
-                </div>
-            </div>
-        </div>
-    };
+			<div className="tag-settings-body">
+				<div className="tag-settings-body-left">
+					<h5>{labelSectionTitle}</h5>
+					{_labels}
+				</div>
+				<div className="tag-settings-body-right">
+					<h5>Edit</h5>
+					<p className="btn btn-danger remove" onClick={onTermRemove}>Remove</p>
+				</div>
+			</div>
+		</div>
+	};
 
-    onClose = () => {
-        this.props.onClose('');
-    }
+	onClose = () => {
+		this.props.onClose('');
+	}
 }
 
 export default TermSettings;

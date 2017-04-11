@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class SuggestedTerm extends Component {
 	static propTypes = {
-		onSuggestionClick: React.PropTypes.func.isRequired,
-		value: React.PropTypes.string.isRequired
-	}
+		onSuggestionClick: PropTypes.func.isRequired,
+		value: PropTypes.string.isRequired,
+		isActive: PropTypes.bool.isRequired
+	};
 
-    render = () => {
-        return <p onClick={this.onClick} className="suggested-term">{this.props.value}</p>;
-    };
+	render = () => {
+		const CSSClass = this.props.isActive ? 'suggested-term active-suggested-term' : 'suggested-term';
+		return <p onClick={this.onClick} className={CSSClass}>{this.props.value}</p>;
+	};
 
-    onClick = () => {
-        this.props.onSuggestionClick(this.props.value);
-    };
+	onClick = () => {
+		this.props.onSuggestionClick(this.props.value);
+	};
 }
 
 export default SuggestedTerm;

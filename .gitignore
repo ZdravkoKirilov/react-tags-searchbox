@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 
-# testing
+# __tests__
 /coverage
 
 # production
@@ -22,3 +22,4 @@ yarn-error.log*
 .idea/react-tags-searchbox.iml
 .idea/vcs.xml
 .idea/workspace.xml
+.idea/watcherTasks.xml

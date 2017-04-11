@@ -1,105 +1,154 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import TermsInput from '../components/TermsInput';
 import Controls from '../components/Controls';
 import SuggestionsList from '../components/SuggestionsList';
 
 class InteractionArea extends Component {
-    static propTypes = {
-        onTermEnter: React.PropTypes.func.isRequired,
-        suggestionsPool: React
-            .PropTypes
-            .arrayOf(React.PropTypes.string)
-    };
+	static propTypes = {
+		onTermEnter: PropTypes.func.isRequired,
+		suggestionsPool: PropTypes
+		.arrayOf(PropTypes.string),
+		onSearchPress: PropTypes.func.isRequired
+	};
 
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            inputValue: '',
-            suggestions: []
-        }
-    }
+		this.state = {
+			inputValue: '',
+			suggestions: [],
+			selectedSuggestion: null
+		}
+	}
 
-    render() {
-        return (
-            <div className="interaction-area">
+	render() {
+		return (
+			<div className="interaction-area">
 
-                <div>
-                    <TermsInput
-                        value={this.state.inputValue}
-                        onChangeCallback={this.onInputChange}
-                        onEnterPress={this.onTermEnter}/>
-                    <SuggestionsList
-                        suggestions={this.state.suggestions}
-                        onSuggestionClick={this.onSuggestionClick}/>
-                </div>
+				<div>
+					<TermsInput
+						value={this.state.inputValue}
+						onChangeCallback={this.onInputChange}
+						onEnterPress={this.onTermEnter}
+						onArrowKey={this.onArrowKey}
+						onEscapeKey={this.onEscapeKey}
+					/>
+					<SuggestionsList
+						suggestions={this.state.suggestions}
+						onSuggestionClick={this.onSuggestionClick}
+						selectedSuggestion={this.state.selectedSuggestion}
+					/>
+				</div>
 
-                <Controls onAddClick={this.onTermAdd}/>
-            </div>
-        );
-    }
+				<Controls onAddClick={this.onTermAdd} onSearchPress={this.props.onSearchPress}/>
+			</div>
+		);
+	}
 
-    onInputChange = (value) => {
+	onInputChange = (value) => {
 
-        if (value || value === '') {
-            this.setState(prevState => {
-                return Object.assign({}, prevState, {inputValue: value});
-            });
-        }
-        if (value && value.length >= 3) {
-            const suggetions = this
-                .props
-                .suggestionsPool
-                .filter(elem => {
-                    return elem
-                        .toLowerCase()
-                        .includes(value.toLowerCase());
-                });
-            this.setState(prevState => {
-                return Object.assign({}, prevState, {suggestions: suggetions});
-            });
-        } else {
-            this.setState(prevState => {
-                return Object.assign({}, prevState, {suggestions: []});
-            });
-        }
-    };
+		if (value || value === '') {
+			this.setState(prevState => {
+				return Object.assign({}, prevState, {inputValue: value, selectedSuggestion: null});
+			});
+		}
+		if (value && value.length >= 3) {
+			const suggestions = this
+			.props
+			.suggestionsPool
+			.filter(elem => {
+				return elem
+				.toLowerCase()
+				.includes(value.toLowerCase());
+			});
+			if (suggestions.length) {
+				suggestions.unshift(value);
+			}
+			this.setState(prevState => {
+				return Object.assign({}, prevState, {suggestions: suggestions, selectedSuggestion: null});
+			});
+		} else {
+			this.setState(prevState => {
+				return Object.assign({}, prevState, {suggestions: [], selectedSuggestion: null});
+			});
+		}
+	};
 
-    onSuggestionClick = (term) => {
-        this
-            .props
-            .onTermEnter({value: term});
+	onSuggestionClick = (term) => {
+		this
+		.props
+		.onTermEnter({value: term});
 
-        this.setState(prevState => {
-            return {inputValue: '', suggestions: []}
-        });
-    };
+		this.setState(prevState => {
+			return Object.assign({}, prevState, {inputValue: '', suggestions: [], selectedSuggestion: null});
+		});
+	};
 
-    onTermAdd = () => {
-        if (this.state.inputValue) {
-            const enteredTerm = this.state.inputValue;
-            this
-                .props
-                .onTermEnter({value: enteredTerm});
+	onTermAdd = () => {
+		if (this.state.inputValue) {
+			const enteredTerm = this.state.inputValue;
+			this
+			.props
+			.onTermEnter({value: enteredTerm});
 
-            this.setState(prevState => {
-                return {inputValue: '', suggestions: []}
-            });
-        }
-    };
+			this.setState(prevState => {
+				return Object.assign({}, prevState, {inputValue: '', suggestions: [], selectedSuggestion: null});
+			});
+		}
+	};
 
-    onTermEnter = () => {
-        if (this.state.inputValue) {
-            const enteredTerm = this.state.inputValue;
-            this
-                .props
-                .onTermEnter({value: enteredTerm});
+	onTermEnter = () => {
+		if (this.state.inputValue) {
+			const enteredTerm = this.state.inputValue;
+			this
+			.props
+			.onTermEnter({value: enteredTerm});
 
-            this.setState(prevState => {
-                return {inputValue: '', suggestions: []}
-            });
-        }
-    };
+			this.setState(prevState => {
+				return {inputValue: '', suggestions: [], selectedSuggestion: null}
+			});
+		}
+	};
+
+	onEscapeKey = () => {
+		this.setState(prevState => {
+			return Object.assign({}, prevState, {selectedSuggestion: '', suggestions: []});
+		});
+	};
+
+	onArrowKey = (data) => {
+		const direction = data.direction;
+
+		if (direction === 'up') {
+			this.moveSelectedSuggestionUp();
+		}
+		if (direction === 'down') {
+			this.moveSelectedSuggestionDown();
+		}
+	};
+
+	moveSelectedSuggestionUp = () => {
+		const current = this.state.suggestions.indexOf(this.state.selectedSuggestion);
+		const prevIndex = current - 1;
+		const value = this.state.suggestions[prevIndex];
+		if (value) {
+			this.setState(prevState => {
+				return Object.assign({}, prevState, {selectedSuggestion: value, inputValue: value});
+			});
+		}
+	};
+
+	moveSelectedSuggestionDown = () => {
+		const current = this.state.suggestions.indexOf(this.state.selectedSuggestion);
+		const nextIndex = current + 1;
+		const value = this.state.suggestions[nextIndex];
+		if (value) {
+			this.setState(prevState => {
+				return Object.assign({}, prevState, {selectedSuggestion: value, inputValue: value});
+			});
+		}
+	};
 }
 
 export default InteractionArea;

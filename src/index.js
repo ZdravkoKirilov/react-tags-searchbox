@@ -5,7 +5,7 @@ import Searchbox from './components/Searchbox';
 const terms = [
     {
         value: 'Paris',
-        label: null
+        label: 'City'
     }, {
         value: 'France',
         label: null
@@ -25,7 +25,7 @@ function onTermsChange(terms) {
     console.log(terms);
 }
 
-const suggestions = ['Sofia', 'Bulgaria', 'London', 'England'];
+const suggestions = ['city:Sofia', 'Sofia', 'country:Bulgaria', 'Bulgaria', 'London', 'England'];
 const labels = {
     City: {
         style: {
@@ -41,7 +41,7 @@ const labels = {
         },
         value: 'Country'
     }
-}
+};
 
 ReactDOM.render(
     <Searchbox

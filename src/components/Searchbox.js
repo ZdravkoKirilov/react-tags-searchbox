@@ -1,12 +1,23 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import InteractionArea from '../containers/InteractionArea';
 import OutputArea from '../containers/OutputArea';
+import {findTerm} from '../selectors/Terms';
 import '../styles/Searchbox.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //TODO PropTypes TESTS search term tooltop. search term with keyword:
 
 class Searchbox extends Component {
+	static propTypes = {
+		suggestionsPool: PropTypes
+		.arrayOf(PropTypes.string),
+		onSearchPress: PropTypes.func.isRequired,
+		enteredTerms: PropTypes
+		.arrayOf(PropTypes.object),
+		onTermsChange: PropTypes.func,
+		labels: PropTypes.object
+	};
 
 	constructor(props) {
 		super(props);
@@ -58,12 +69,7 @@ class Searchbox extends Component {
 	}
 
 	onLabelClick = (label) => {
-		const targetTerm = this.findTerm(this.state.selectedTerm, this.state.enteredTerms);
-		const index = this
-		.state
-		.enteredTerms
-		.indexOf(targetTerm);
-
+		const {targetTerm, index} = findTerm(this.state.selectedTerm, this.state.enteredTerms);
 		const updatedTerm = Object.assign({}, targetTerm, {label: label});
 		const updatedTerms = this
 		.state
@@ -71,7 +77,7 @@ class Searchbox extends Component {
 		.slice();
 		updatedTerms[index] = updatedTerm;
 		this.setState(prevState => {
-			return Object.assign({}, prevState, {enteredTerms: updatedTerms});
+			return Object.assign({}, prevState, {enteredTerms: updatedTerms, selectedTerm: updatedTerm});
 		});
 	};
 
@@ -91,12 +97,6 @@ class Searchbox extends Component {
 				selectedTerm: term
 			});
 		});
-	};
-
-	findTerm = (term, terms) => {
-		return terms.filter(elem => {
-			return elem.value === term;
-		})[0];
 	};
 
 	composeTerm = (payload) => {
@@ -135,12 +135,13 @@ class Searchbox extends Component {
 	};
 
 	onTermRemove = () => {
-		const name = this.state.selectedTerm;
+		const {value, label} = this.state.selectedTerm;
+
 		this.setState(prevState => {
 			const filtered = prevState
 			.enteredTerms
 			.filter(elem => {
-				return elem.value !== name;
+				return elem.value !== value || elem.label !== label;
 			});
 			this
 			.props
@@ -159,18 +160,6 @@ class Searchbox extends Component {
 		this
 		.props
 		.onSearchPress(terms);
-	};
-
-	static propTypes = {
-		suggestionsPool: React
-		.PropTypes
-		.arrayOf(React.PropTypes.string),
-		onSearchPress: React.PropTypes.func.isRequired,
-		enteredTerms: React
-		.PropTypes
-		.arrayOf(React.PropTypes.object),
-		onTermsChange: React.PropTypes.func,
-		labels: React.PropTypes.object
 	};
 
 	static defaultProps = {

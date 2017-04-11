@@ -1,14 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SuggestedTerm from './SuggestedTerm';
 
 const Suggestions = (props) => {
 	const suggestions = props
 	.suggestions
 	.map((elem, index) => {
+		let isActive = false;
+
+		if (elem === props.selectedSuggestion) {
+			isActive = true;
+		}
+
 		return <SuggestedTerm
 			onSuggestionClick={props.onSuggestionClick}
 			key={index}
-			value={elem}/>
+			value={elem}
+			isActive={isActive}
+		/>
 	});
 	return (
 		<div className="suggestions">
@@ -18,10 +27,10 @@ const Suggestions = (props) => {
 };
 
 Suggestions.propTypes = {
-	suggestions: React
-	.PropTypes
-	.arrayOf(React.PropTypes.string),
-	onSuggestionClick: React.PropTypes.func
+	suggestions: PropTypes
+	.arrayOf(PropTypes.string),
+	onSuggestionClick: PropTypes.func,
+	selectedSuggestion: PropTypes.string
 };
 
 Suggestions.defaultProps = {

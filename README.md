@@ -1,4 +1,5 @@
-# React + Bootstrap powered searchbox component
+# React + Bootstrap powered search box component
 
 ## What it does
+
 

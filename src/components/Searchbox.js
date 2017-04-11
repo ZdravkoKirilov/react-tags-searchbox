@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import InteractionArea from '../containers/InteractionArea';
 import OutputArea from '../containers/OutputArea';
-import {findTerm} from '../selectors/Terms';
+import {removeTerm, enterTerm, addTermLabel} from '../reducers/TermsReducer';
 import '../styles/Searchbox.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-//TODO PropTypes TESTS search term tooltop. search term with keyword:
 
 class Searchbox extends Component {
 	static propTypes = {
@@ -69,15 +67,9 @@ class Searchbox extends Component {
 	}
 
 	onLabelClick = (label) => {
-		const {targetTerm, index} = findTerm(this.state.selectedTerm, this.state.enteredTerms);
-		const updatedTerm = Object.assign({}, targetTerm, {label: label});
-		const updatedTerms = this
-		.state
-		.enteredTerms
-		.slice();
-		updatedTerms[index] = updatedTerm;
+		const data = addTermLabel(label, this.state.enteredTerms, this.state.selectedTerm);
 		this.setState(prevState => {
-			return Object.assign({}, prevState, {enteredTerms: updatedTerms, selectedTerm: updatedTerm});
+			return Object.assign({}, prevState, {enteredTerms: data.updatedTerms, selectedTerm: data.updatedTerm});
 		});
 	};
 
@@ -99,50 +91,23 @@ class Searchbox extends Component {
 		});
 	};
 
-	composeTerm = (payload) => {
-
-		const parts = payload.value.split(':');
-		let value, label;
-		if (parts.length > 1) {
-			label = parts.shift();
-			value = parts.join('');
-		} else {
-			label = '';
-			value = payload.value;
-		}
-		return {
-			value,
-			label
-		}
-	};
-
 	onTermEnter = (payload) => {
 		this.setState(prevState => {
 			if (prevState.enteredTerms.includes(payload)) {
 				return prevState;
 			} else {
-				const updatedTerms = prevState
-				.enteredTerms
-				.concat([this.composeTerm(payload)]);
-
+				const updatedTerms = enterTerm(prevState.enteredTerms, this.composeTerm(payload));
 				this
 				.props
 				.onTermsChange(updatedTerms);
-
 				return Object.assign({}, prevState, {enteredTerms: updatedTerms})
 			}
 		});
 	};
 
 	onTermRemove = () => {
-		const {value, label} = this.state.selectedTerm;
-
 		this.setState(prevState => {
-			const filtered = prevState
-			.enteredTerms
-			.filter(elem => {
-				return elem.value !== value || elem.label !== label;
-			});
+			const filtered = removeTerm(prevState.enteredTerms, prevState.selectedTerm)
 			this
 			.props
 			.onTermsChange(filtered);
@@ -160,6 +125,23 @@ class Searchbox extends Component {
 		this
 		.props
 		.onSearchPress(terms);
+	};
+
+	composeTerm = (payload) => {
+
+		const parts = payload.value.split(':');
+		let value, label;
+		if (parts.length > 1) {
+			label = parts.shift();
+			value = parts.join('');
+		} else {
+			label = '';
+			value = payload.value;
+		}
+		return {
+			value,
+			label
+		}
 	};
 
 	static defaultProps = {

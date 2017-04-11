@@ -16,6 +16,7 @@ const render = (div) => {
 	ReactDOM.render(<Term
 		value={value}
 		onSettingsClick={onSettingsClick}
+		isSelected={true}
 	/>, div);
 };
 
@@ -40,6 +41,14 @@ it('fires callback after clicking on settings', () => {
 	ReactTestUtils.Simulate.click(settingsToggle);
 
 	expect(onSettingsClick.mock.calls.length).toBe(1);
+});
+
+it('renders a selected indicator', () => {
+	const div = document.createElement('div');
+	render(div);
+	const DOMElement = div.querySelector('.search-term');
+
+	expect(DOMElement.classList).toContain('selected-element');
 });
 
 

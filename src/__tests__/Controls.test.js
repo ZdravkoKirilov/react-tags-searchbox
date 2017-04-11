@@ -10,7 +10,6 @@ import Controls from '../components/Controls';
 let onAddClick = jest.fn();
 let onSearchPress = jest.fn();
 
-
 const render = (div) => {
 	ReactDOM.render(<Controls
 		onAddClick={onAddClick}

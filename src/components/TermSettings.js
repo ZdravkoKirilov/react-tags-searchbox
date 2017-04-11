@@ -20,17 +20,7 @@ class TermSettings extends Component {
 		const {isVisible, title, labels, selectedTerm, onLabelClick, onTermRemove} = this.props;
 		const cssClass = isVisible ? 'tag-settings' : 'tag-settings hidden-left';
 
-		let _labels = [];
-		for (let key in labels) {
-			let isSelected = (selectedTerm && selectedTerm.label) ? (selectedTerm.label.toLowerCase() === key.toLowerCase()) : false;
-			const component = <TermLabel
-				{...labels[key]}
-				key={key}
-				onLabelClick={onLabelClick}
-				isSelected={isSelected}
-			/>;
-			_labels.push(component);
-		}
+		const _labels = this.composeLabels(labels, selectedTerm, onLabelClick);
 		const labelSectionTitle = _labels.length > 0 ? 'Pick a label' : 'No labels to show';
 
 		return <div className={cssClass}>
@@ -51,6 +41,35 @@ class TermSettings extends Component {
 				</div>
 			</div>
 		</div>
+	};
+
+    composeLabels = (labels, selectedTerm, onLabelClick) => {
+		let _labels = [];
+		let hasSelectedLabel = false;
+		for (let key in labels) {
+			let isSelected = (selectedTerm && selectedTerm.label) ? (selectedTerm.label.toLowerCase() === key.toLowerCase()) : false;
+			if (isSelected) {
+				hasSelectedLabel = true;
+			}
+			const component = <TermLabel
+				{...labels[key]}
+				key={key}
+				onLabelClick={onLabelClick}
+				isSelected={isSelected}
+			/>;
+			_labels.push(component);
+		}
+		if (_labels.length > 0) {
+
+			_labels.push(<TermLabel
+				value={'None'}
+				style={{background: '#ccc'}}
+				key={'None'}
+				onLabelClick={onLabelClick}
+				isSelected={!hasSelectedLabel}
+			/>);
+		}
+		return _labels;
 	};
 
 	onClose = () => {

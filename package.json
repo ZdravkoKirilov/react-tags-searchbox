@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/ZdravkoKirilov/react-tags-searchbox.git"
   },
-  "main": "/lib/index.js",
+  "main": "/lib/components/SearchBox.js",
   "keywords": [
     "React",
     "Bootstrap",
@@ -25,6 +25,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.24.1",
     "less": "^2.7.2",
     "less-watch-compiler": "^1.4.2",
     "react-scripts": "0.9.5"
@@ -35,6 +36,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "less-watch": "less-watch-compiler ./src/styles ./src/styles",
-    "prepare": "babel ./src --out-dir ./lib --presets es2015,react --copy-files --ignore test.js --plugins babel-plugin-add-module-exports"
+    "prepare-pkg": "babel ./src --out-dir ./lib --presets es2015,stage-0,react --copy-files --ignore test.js --plugins babel-plugin-add-module-exports"
   }
 }

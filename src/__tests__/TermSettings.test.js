@@ -62,7 +62,7 @@ it('renders correct labels', () => {
 	render(div, true);
 
 	const DOMLabels = div.querySelectorAll('.tag-label');
-	expect(DOMLabels.length).toBe(2);
+	expect(DOMLabels.length).toBeGreaterThanOrEqual(2);
 	expect(DOMLabels[0].textContent).toBe(labels.City.value);
 	expect(DOMLabels[1].textContent).toBe(labels.Country.value);
 });

@@ -7,6 +7,7 @@
     "type": "git",
     "url": "https://github.com/ZdravkoKirilov/react-tags-searchbox.git"
   },
+  "homepage": "https://ZdravkoKirilov.github.io/react-tags-searchbox",
   "main": "/lib/components/SearchBox.js",
   "keywords": [
     "React",
@@ -26,6 +27,7 @@
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
+    "gh-pages": "^0.12.0",
     "less": "^2.7.2",
     "less-watch-compiler": "^1.4.2",
     "react-scripts": "0.9.5"
@@ -33,6 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build&gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "less-watch": "less-watch-compiler ./src/styles ./src/styles",

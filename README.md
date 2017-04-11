@@ -12,6 +12,8 @@
 * Covers only the view layer and therefore expects callback functions which will be invoked with the current terms as the only parameter:
     - Terms change: remove/add
     - Search press
+    
+### Live Demo: [Click here](https://zdravkokirilov.github.io/react-tags-searchbox/)
 
 #### Example of prepopulated terms formatting
 

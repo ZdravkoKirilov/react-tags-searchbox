@@ -1,6 +1,6 @@
 {
   "name": "react-tags-searchbox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "author": "Zdravko Kirilov",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/ZdravkoKirilov/react-tags-searchbox.git"
   },
   "homepage": "https://ZdravkoKirilov.github.io/react-tags-searchbox",
-  "main": "/lib/components/SearchBox.js",
+  "main": "lib/components/Searchbox.js",
   "license": "MIT",
   "keywords": [
     "React",

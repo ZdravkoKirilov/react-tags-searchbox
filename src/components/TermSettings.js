@@ -14,7 +14,7 @@ class TermSettings extends Component {
 	};
 
 	static defaultProps = {
-		labels: []
+		labels: {}
 	};
 	render = () => {
 		const {isVisible, title, labels, selectedTerm, onLabelClick, onTermRemove} = this.props;

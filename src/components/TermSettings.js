@@ -16,6 +16,7 @@ class TermSettings extends Component {
 	static defaultProps = {
 		labels: {}
 	};
+
 	render = () => {
 		const {isVisible, title, labels, selectedTerm, onLabelClick, onTermRemove} = this.props;
 		const cssClass = isVisible ? 'tag-settings' : 'tag-settings hidden-left';

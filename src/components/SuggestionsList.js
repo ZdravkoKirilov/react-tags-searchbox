@@ -18,7 +18,9 @@ const Suggestions = (props) => {
 			value={elem}
 			isActive={isActive}
 		/>
-	});
+	})
+	.slice(0, 10);
+
 	return (
 		<div className="suggestions">
 			{suggestions}

@@ -17,10 +17,10 @@ class TermsInput extends Component {
 
 	render = () => {
 		return (
-			<div>
+			<div className="terms-input">
 				<input
 					type="text"
-					placeholder="Enter search terms"
+					placeholder="type here to search..."
 					onChange={this.onChange}
 					onKeyUp={this.onKeyUp}
 					value={this.props.value}

@@ -1,42 +1,66 @@
+@smartphone: ~"only screen and (max-width: 479px)";
+@padding-smartphones: 10px;
+@tablet: ~"only screen and (max-width: 768px)";
+
+.visible-modal {
+  .sb-overlay {
+    display: block !important;
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .searchbox-root {
-  display: inline-flex;
   font-family: helvetica, Arial, sans-serif;
-  height: 37px;
-  width: 100%;
   position: relative;
+  transition: all .5s ease-in-out;
+  padding: 10px;
+
+  @media @tablet, @smartphone {
+  }
 
   .hidden-top {
     top: -500px !important;
   }
   .hidden-left {
-    left: -1000px !important;
-  }
-  .rotate() {
-    transform: rotate(20deg);
-  }
-  .expand {
-    width: 0;
-    height: 0;
-    border-top: 15px solid transparent;
-    border-right: 35px solid gray;
-    border-bottom: 15px solid transparent;
-  }
-  .shrink {
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 30px solid gray;
+    left: -2000px !important;
+    opacity: 0 !important;
   }
   .interaction-area {
-    display: flex;
     position: relative;
+    display: flex;
+    @media @tablet, @smartphone {
+      padding-top: @padding-smartphones;
+    }
+    .controls {
+      @media @tablet, @smartphone {
+        text-align: right;
+        padding-top: @padding-smartphones;
+      }
+      .add-term {
+        margin-right: 10px;
+        .badge {
+          margin-right: 5px;
+        }
+      }
+      .start-search {
+        .glyphicon {
+          margin-right: 5px;
+        }
+      }
+    }
+    .terms-input {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
     .suggestions {
       width: 100%;
       position: absolute;
       top: 40px;
-      background: white;
       box-shadow: 1px 1px 1px;
+      background: white;
+      z-index: 2;
       .suggested-term {
         padding: 5px;
         margin: 5px;
@@ -52,75 +76,89 @@
   }
   .output-area {
     display: inline-flex;
-    width: 50%; //border: 1px solid brown;
     position: relative;
+    .active-tags {
+      overflow: hidden;
+      margin-right: 5px;
+      .search-term {
+        display: inline-flex;
+        border-radius: 3px;
+        padding: 4px 6px;
+        margin: 5px 10px;
+        background: #ccc;
+        position: relative;
+        .toggle-tag-settings {
+          cursor: pointer;
+          font-size: 1.3em;
+        }
+      }
+      .selected-element {
+        &:after {
+          width: 5px;
+          height: 30px;
+          background: green;
+          content: '';
+          position: absolute;
+          right: -8px;
+          top: 0;
+        }
+      }
+    }
     .tag-settings {
       position: absolute;
-      left: 50%;
+      left: 100%;
       top: 70px;
-      background: whitesmoke;
-      border: 1px solid;
-      width: 50%;
-      transition: .5s all ease-in-out;
-      padding: 5px;
+      opacity: 1;
+      transition: .4s all ease-in-out;
+      z-index: 2000;
       .half-width {
         width: 50%;
         height: 100%;
         padding: 5px;
       }
+      .modal-content {
+        z-index: 1051;
+      }
       .tag-settings-header {
         text-align: center;
-        padding: 10px;
+        padding: 12px;
         border-bottom: 1px solid black;
+        @media @tablet, @smartphone {
+          text-align: left;
+        }
         .tag-settings-title {
           display: inline;
         }
-        .close-sign {
-          position: absolute;
-          right: 4px;
-          top: 4px;
-          &:after {
-            content: "x";
-            text-align: right;
-            font-weight: bold;
-            font-size: 30px;
-            padding: 1px;
-          }
-          &:hover {
-            cursor: pointer;
-          }
+        .close-text {
+          margin-left: 10px;
         }
         .done {
           position: absolute;
-          bottom: 5px;
-          right: 5px;
+          top: 5px;
+          left: 5px;
         }
       }
       .tag-settings-body {
         display: flex;
         min-height: 150px;
-        .selected-element{
+        .remove {
+          width: 100%;
+        }
+        .selected-element {
           &:after {
             width: 5px;
             height: 31px;
             background: green;
             content: '';
-            position:absolute;
+            position: absolute;
             right: -9px;
-            top:-2px;
-            border-radius:3px;
+            top: 0px;
           }
         }
         .tag-label {
-          padding: 2px;
-          text-align: center;
-          cursor: pointer;
-          height: 30px;
-          opacity: 1;
-          position:relative;
-          &:active {
-            transform: scale(1.1, 1.1);
-          }
+          width: 100%;
+          position: relative;
+          margin: 2px 0;
         }
         .tag-settings-body-left {
           .half-width;
@@ -128,51 +166,27 @@
         }
         .tag-settings-body-right {
           .half-width;
-          .remove {
-            width: 100%;
+          .remove-text {
+            margin-left: 10px;
           }
         }
       }
-    }
-    .active-tags {
-      background: white;
-      transition: all .5s ease-in-out;
-      overflow: hidden;
-      .search-term {
-        display: inline-flex;
-        border-radius: 3px;
-        padding: 2px 4px;
-        margin: 5px 10px;
-        background: #ccc;
-        position: relative;
-        .toggle-tag-settings {
-          width: 24px;
-          height: 17px;
-          cursor: pointer;
-        }
-      }
-      .selected-element{
-        &:after {
-          width: 5px;
-          height: 25px;
-          background: green;
-          content: '';
-          position:absolute;
-          right: -8px;
-          border-radius:3px;
-          top: 0;
-        }
+
+      @media @smartphone, @tablet {
+        left: 10%;
       }
     }
     .toggle-terms {
       cursor: pointer;
       padding: 2px;
       margin: 2px;
+      font-size: 1.8em;
     }
     .terms-count {
-      font-size: 25px;
-      font-weight: bold;
-      color: gray;
+      border-radius: 0px;
+      margin-top: 8px;
+      height: 25px;
+      font-size: 1.5em;
     }
   }
 }

@@ -17,14 +17,13 @@ const ActiveTermsList = (props) => {
         });
     return (
 
-        <div className="active-tags" style={props.style}>
+        <div className="active-tags">
             {terms}
         </div>
     );
 };
 
 ActiveTermsList.propTypes = {
-    style: PropTypes.object.isRequired,
     onSettingsClick: PropTypes.func.isRequired,
     labels: PropTypes.object,
 	selectedTerm: PropTypes.any

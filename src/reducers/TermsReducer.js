@@ -7,9 +7,11 @@ export const removeTerm = (enteredTerms, selectedTerm) => {
 	const {value, label} = selectedTerm;
 	const filtered = enteredTerms
 	.filter(elem => {
-		return elem.value !== value || elem.label !== label;
+		const notSameValue = elem.value !== value;
+		const notSameLabel = elem.label !== label;
+		const bothFalsy = !!elem.label !== !!label;
+		return notSameValue || notSameLabel || bothFalsy;
 	});
-
 	return filtered;
 };
 
@@ -28,4 +30,14 @@ export const addTermLabel = (label, enteredTerms, selectedTerm) => {
 		updatedTerms,
 		updatedTerm
 	}
+};
+
+export const getRightTerm = (current, allTerms) => {
+	const {index} = findTerm(current, allTerms);
+	return allTerms[index + 1] || allTerms[0];
+};
+
+export const getLeftTerm = (current, allTerms) => {
+	const {index} = findTerm(current, allTerms);
+	return allTerms[index - 1] || allTerms[allTerms.length - 1];
 };

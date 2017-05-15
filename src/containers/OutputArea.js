@@ -11,8 +11,6 @@ class OutputArea extends Component {
 		settingsVisible: PropTypes.bool.isRequired,
 		selectedTerm: PropTypes.any,
 		labels: PropTypes.object,
-		expanded: PropTypes.bool.isRequired,
-		onTermListToggle: PropTypes.func.isRequired,
 		onLabelClick: PropTypes.func,
 		onTermRemove: PropTypes.func.isRequired,
 		onSettingsClick: PropTypes.func.isRequired
@@ -24,30 +22,15 @@ class OutputArea extends Component {
 			settingsVisible,
 			selectedTerm,
 			labels,
-			expanded,
-			onTermListToggle,
 			onLabelClick,
 			onTermRemove,
 			onSettingsClick
 		} = this.props;
 
-		let toggleClass = 'expand';
-		let style = {
-			height: '38px'
-		};
-
-		if (expanded) {
-			toggleClass = "shrink";
-			style = {
-				height: '200px'
-			}
-		}
-
 		return (
-			<div className="output-area">
+			<div className="output-area col-sm-5 col-xs-12 col-md-4">
 				<ActiveTermsList
 					terms={terms}
-					style={style}
 					onSettingsClick={onSettingsClick}
 					selectedTerm={selectedTerm}
 					labels={labels}/>
@@ -61,11 +44,6 @@ class OutputArea extends Component {
 					selectedTerm={selectedTerm}
 				/>
 
-				<span className="terms-count">{terms.length}</span>
-
-				<div className="toggle-terms">
-					<div onClick={onTermListToggle} className={toggleClass}></div>
-				</div>
 			</div>
 		);
 	}

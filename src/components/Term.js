@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Cogwheel from '../assets/cogwheel.svg';
 
 class Term extends Component {
 	static propTypes = {
@@ -24,12 +23,9 @@ class Term extends Component {
 
 		return <div className={CSSClass} style={labelStyle}>
 			<span>{this.props.value}</span>
-			<img
-				className="toggle-tag-settings"
-				alt="Click for Term Settings"
-				src={Cogwheel}
-				title="Click for Term Settings"
-				onClick={this.onSettingsClick}/>
+			<span className="glyphicon glyphicon-pencil toggle-tag-settings" onClick={this.onSettingsClick}>
+
+			</span>
 		</div>
 	};
 

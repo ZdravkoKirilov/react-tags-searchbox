@@ -9,7 +9,9 @@ class InteractionArea extends Component {
 		onTermEnter: PropTypes.func.isRequired,
 		suggestionsPool: PropTypes
 		.arrayOf(PropTypes.string),
-		onSearchPress: PropTypes.func.isRequired
+		termsCount: PropTypes.number.isRequired,
+		onSearchPress: PropTypes.func.isRequired,
+		searchEnabled: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -23,25 +25,29 @@ class InteractionArea extends Component {
 	}
 
 	render() {
+
 		return (
-			<div className="interaction-area">
+			<div className="interaction-area container-fluid col-sm-7 col-xs-12 col-md-8">
 
-				<div>
-					<TermsInput
-						value={this.state.inputValue}
-						onChangeCallback={this.onInputChange}
-						onEnterPress={this.onTermEnter}
-						onArrowKey={this.onArrowKey}
-						onEscapeKey={this.onEscapeKey}
-					/>
-					<SuggestionsList
-						suggestions={this.state.suggestions}
-						onSuggestionClick={this.onSuggestionClick}
-						selectedSuggestion={this.state.selectedSuggestion}
-					/>
-				</div>
+				<TermsInput
+					value={this.state.inputValue}
+					onChangeCallback={this.onInputChange}
+					onEnterPress={this.onTermEnter}
+					onArrowKey={this.onArrowKey}
+					onEscapeKey={this.onEscapeKey}
+				/>
 
-				<Controls onAddClick={this.onTermAdd} onSearchPress={this.props.onSearchPress}/>
+				<SuggestionsList
+					suggestions={this.state.suggestions}
+					onSuggestionClick={this.onSuggestionClick}
+					selectedSuggestion={this.state.selectedSuggestion}
+				/>
+
+				<Controls onAddClick={this.onTermAdd}
+						  onSearchPress={this.props.onSearchPress}
+						  termsCount={this.props.termsCount}
+						  searchEnabled={this.props.searchEnabled}
+				/>
 			</div>
 		);
 	}

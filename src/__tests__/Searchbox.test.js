@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Searchbox from '../components/Searchbox';
+import Searchbox from '../containers/Searchbox';
 
 const terms = [
 	{

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class TermLabel extends Component {
     render = () => {
-        const cssClass = this.props.isSelected ? `tag-label selected-element` : 'tag-label';
+        const cssClass = this.props.isSelected ? `tag-label btn selected-element` : 'tag-label btn';
         return <p style={this.props.style} className={cssClass} onClick={this.onClick}>{this.props.value}</p>
     };
 

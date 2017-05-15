@@ -14,7 +14,14 @@ class Searchbox extends Component {
 		enteredTerms: PropTypes
 		.arrayOf(PropTypes.object),
 		onTermsChange: PropTypes.func,
-		labels: PropTypes.object
+		labels: PropTypes.object,
+		searchEnabled: PropTypes.bool
+	};
+
+	static defaultProps = {
+		suggestionsPool: [],
+		enteredTerms: [],
+		searchEnabled: true
 	};
 
 	constructor(props) {
@@ -30,25 +37,30 @@ class Searchbox extends Component {
 
 	render() {
 		const {onSearchPress, onTermEnter, onTermRemove, onLabelClick, onTermListToggle, onSettingsClick} = this;
-		const {suggestionsPool, labels} = this.props;
-		const {enteredTerms, settingsVisible, selectedTerm, expandedTerms} = this.state;
+		const {suggestionsPool, labels, searchEnabled} = this.props;
+		const {enteredTerms, settingsVisible, selectedTerm} = this.state;
+		const RootCSS = 'searchbox-root container-fluid';
 
 		return (
-			<div className="searchbox-root">
-				<OutputArea
-					terms={enteredTerms}
-					onTermRemove={onTermRemove}
-					onLabelClick={onLabelClick}
-					onTermListToggle={onTermListToggle}
-					labels={labels}
-					expanded={expandedTerms}
-					settingsVisible={settingsVisible}
-					selectedTerm={selectedTerm}
-					onSettingsClick={onSettingsClick}/>
-				<InteractionArea
-					onSearchPress={onSearchPress}
-					onTermEnter={onTermEnter}
-					suggestionsPool={suggestionsPool}/>
+			<div className={RootCSS}>
+
+					<OutputArea
+						terms={enteredTerms}
+						onTermRemove={onTermRemove}
+						onLabelClick={onLabelClick}
+						onTermListToggle={onTermListToggle}
+						labels={labels}
+						settingsVisible={settingsVisible}
+						selectedTerm={selectedTerm}
+						onSettingsClick={onSettingsClick}/>
+
+					<InteractionArea
+						onSearchPress={onSearchPress}
+						onTermEnter={onTermEnter}
+						suggestionsPool={suggestionsPool}
+						termsCount={enteredTerms.length}
+						searchEnabled={searchEnabled}
+					/>
 			</div>
 		);
 	}
@@ -143,11 +155,6 @@ class Searchbox extends Component {
 			label
 		}
 	};
-
-	static defaultProps = {
-		suggestionsPool: [],
-		enteredTerms: []
-	}
 }
 
 export default Searchbox;

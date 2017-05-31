@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TermsInput from '../components/TermsInput';
+import TermsInput from '../components_DEPRECATED/TermsInput';
 
 let onChangeCallback = jest.fn();
 let onEnterPress = jest.fn();

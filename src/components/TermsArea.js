@@ -11,6 +11,7 @@ export default class TermsArea extends Component {
 
 	static propTypes = {
 		onTermEnter: PropTypes.func.isRequired,
+		onTermRemove: PropTypes.func.isRequired,
 		currentInputValue: PropTypes.string,
 		onTermChange: PropTypes.func,
 		enteredTerms: PropTypes.arrayOf(PropTypes.object),
@@ -25,13 +26,14 @@ export default class TermsArea extends Component {
 
 	render() {
 		const {onTermEnter, currentInputValue, onTermChange, onSuggestionClick, selectedSuggestion,
-			enteredTerms, onSettingsClick, suggestions, onArrowKey, onEscapeKey, selectedTerm, labels} = this.props;
+			enteredTerms, onSettingsClick, suggestions, onArrowKey, onEscapeKey, selectedTerm, labels, onTermRemove} = this.props;
 		const terms = enteredTerms.map((term, index) => {
 			const isSelected = this.isSelected(term, selectedTerm);
 			return <Term
 				key={index}
 				value={term.value}
 				onSettingsClick={onSettingsClick}
+				onRemove={onTermRemove}
 				isSelected={isSelected}
 				label={term.label}
 				labels={labels}

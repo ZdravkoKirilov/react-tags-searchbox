@@ -23,21 +23,19 @@
         padding: .5rem;
         margin-right: 1.5rem;
         margin-bottom: .5rem;
-        .toggle-tag-settings {
-          margin-left: .3rem;
+        .term-title {
           cursor: pointer;
-          font-size: 1.3em;
         }
-        &.selected {
-          .toggle-tag-settings {
-            color: green;
-            transform: scale(1.5);
-          }
+        .remove-term {
+          margin-left: .5rem;
+          font-size: 1.2em;
+          cursor: pointer;
         }
       }
       .input-control {
         flex-grow: 1;
         display: flex;
+        position: relative;
         input {
           width: 100%;
           border: 1px solid transparent;
@@ -50,6 +48,8 @@
         background: white;
         z-index: 2;
         position: absolute;
+        min-width: 50%;
+        top: 5rem;
         .suggested-term {
           cursor: pointer;
           padding: 1rem;
@@ -64,8 +64,16 @@
     }
   }
   .controls-area {
+    display: flex;
+    flex-wrap: wrap;
     .add-term {
-      margin-right: 2rem;
+
+    }
+    .btn {
+      margin-bottom: .3rem;
+      margin-right: .2rem;
+      flex-grow: 1;
+      max-height: 3.2rem;
     }
   }
   .settings-modal {
@@ -120,13 +128,27 @@
     }
 
     .modal-header {
-      display: flex;
-      justify-content:space-between;
+      position: relative;
       .modal-title {
         flex-grow: 1;
+        &:active, &:focus {
+          width: 90%;
+          outline: dotted;
+        }
       }
       .close {
-
+        position: absolute;
+        font-size: 2em;
+        top: 0;
+        right: 1rem;
+        margin: 0;
+        float: none;
+        &:hover {
+          transform: scale(1.1);
+        }
+        &:active {
+          transform: scale(1.2);
+        }
       }
     }
   }

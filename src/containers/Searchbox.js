@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {removeTerm, enterTerm, addTermLabel, getLeftTerm, getRightTerm} from '../reducers/TermsReducer';
+import {removeTerm, enterTerm, addTermLabel, getLeftTerm, getRightTerm, changeTermTitle} from '../reducers/TermsReducer';
 import '../styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import TermsArea from '../components1/TermsArea'
-import ControlsArea from '../components1/ControlsArea'
-import SettingsModal from '../components1/SettingsModal'
+import TermsArea from '../components/TermsArea'
+import ControlsArea from '../components/ControlsArea'
+import SettingsModal from '../components/SettingsModal'
 
 class Searchbox extends Component {
 	static propTypes = {
@@ -16,6 +16,7 @@ class Searchbox extends Component {
 		enteredTerms: PropTypes
 		.arrayOf(PropTypes.object),
 		onTermsChange: PropTypes.func,
+		onUserInput: PropTypes.func,
 		labels: PropTypes.object,
 		searchEnabled: PropTypes.bool
 	};
@@ -36,18 +37,17 @@ class Searchbox extends Component {
 			settingsVisible: false,
 			selectedTerm: {},
 			currentInputValue: '',
-			suggestions: [],
 			selectedSuggestion: null
 		}
 	}
 
 	render() {
 		const {
-			onSearchPress, onTermEnter, onTermChange, onModalArrowKey,
+			onSearchPress, onTermEnter, onTermChange, onModalArrowKey, onTitleChange,
 			onTermRemove, onLabelClick, onSettingsToggle, onArrowKey, onEscapeKey, onSuggestionClick
 		} = this;
-		const {labels, searchEnabled} = this.props;
-		const {currentInputValue, enteredTerms, settingsVisible, selectedSuggestion, suggestions, selectedTerm} = this.state;
+		const {labels, searchEnabled, suggestionsPool} = this.props;
+		const {currentInputValue, enteredTerms, settingsVisible, selectedSuggestion, selectedTerm} = this.state;
 		const RootCSS = 'searchbox-component';
 
 		return (
@@ -56,10 +56,11 @@ class Searchbox extends Component {
 				<TermsArea
 					onTermEnter={onTermEnter}
 					onTermChange={onTermChange}
+					onTermRemove={onTermRemove}
 					currentInputValue={currentInputValue}
 					enteredTerms={enteredTerms}
 					onSettingsClick={onSettingsToggle}
-					suggestions={suggestions}
+					suggestions={suggestionsPool}
 					onArrowKey={onArrowKey}
 					onEscapeKey={onEscapeKey}
 					onSuggestionClick={onSuggestionClick}
@@ -68,61 +69,42 @@ class Searchbox extends Component {
 					labels={labels}
 				/>
 				<ControlsArea
-					onTermEnter={onTermEnter}
 					onSearchPress={onSearchPress}
 					searcEnabled={searchEnabled}
 					onAddClick={onTermEnter}
+					termsCount={enteredTerms.length}
 				/>
 				<SettingsModal isVisible={settingsVisible}
 							   onLabelClick={onLabelClick}
+							   onTitleChange={onTitleChange}
 							   onClose={onSettingsToggle}
 							   onTermRemove={onTermRemove}
 							   labels={labels}
 							   selectedTerm={selectedTerm}
 							   onArrowKey={onModalArrowKey}
 				/>
-
-				{/*<OutputArea*/}
-				{/*terms={enteredTerms}*/}
-				{/*onTermRemove={onTermRemove}*/}
-				{/*onLabelClick={onLabelClick}*/}
-				{/*onTermListToggle={onTermListToggle}*/}
-				{/*labels={labels}*/}
-				{/*settingsVisible={settingsVisible}*/}
-				{/*selectedTerm={selectedTerm}*/}
-				{/*onSettingsClick={onSettingsClick}/>*/}
-
-				{/*<InteractionArea*/}
-				{/*onSearchPress={onSearchPress}*/}
-				{/*onTermEnter={onTermEnter}*/}
-				{/*suggestionsPool={suggestionsPool}*/}
-				{/*termsCount={enteredTerms.length}*/}
-				{/*searchEnabled={searchEnabled}*/}
-				{/*/>*/}
 			</div>
 		);
 	}
 
-	componentWillMount() {
-
-		this
-		.setState(function (prevState) {
-			const enteredTerms = this.props.enteredTerms;
+	onTitleChange = (oldTerm, newTitle) => {
+		const {updatedTerms, updatedTerm} = changeTermTitle(oldTerm, newTitle, this.state.enteredTerms);
+		this.setState(prevState => {
 			return Object.assign({}, prevState, {
-				enteredTerms: prevState
-				.enteredTerms
-				.concat(enteredTerms)
+				enteredTerms: updatedTerms,
+				selectedTerm: updatedTerm
 			});
 		});
-	}
+	};
 
 	onEscapeKey = () => {
 		this.setState(prevState => {
 			return Object.assign({}, prevState, {selectedSuggestion: '', suggestions: []});
 		});
+		this.props.onUserInput();
 	};
 
-	onModalArrowKey =(data) => {
+	onModalArrowKey = (data) => {
 		const direction = data.direction;
 
 		direction === 'left' && this.moveSelectedTermLeft();
@@ -157,9 +139,9 @@ class Searchbox extends Component {
 	};
 
 	moveSelectedSuggestionUp = () => {
-		const current = this.state.suggestions.indexOf(this.state.selectedSuggestion);
+		const current = this.props.suggestionsPool.indexOf(this.state.selectedSuggestion);
 		const prevIndex = current - 1;
-		const value = this.state.suggestions[prevIndex];
+		const value = this.props.suggestionsPool[prevIndex];
 
 		value && this.setState(prevState => {
 			return Object.assign({}, prevState, {
@@ -167,13 +149,12 @@ class Searchbox extends Component {
 				currentInputValue: value
 			});
 		});
-
 	};
 
 	moveSelectedSuggestionDown = () => {
-		const current = this.state.suggestions.indexOf(this.state.selectedSuggestion);
+		const current = this.props.suggestionsPool.indexOf(this.state.selectedSuggestion);
 		const nextIndex = current + 1;
-		const value = this.state.suggestions[nextIndex];
+		const value = this.props.suggestionsPool[nextIndex];
 
 		value && this.setState(prevState => {
 			return Object.assign({}, prevState, {
@@ -189,14 +170,6 @@ class Searchbox extends Component {
 			return Object.assign({}, prevState, {
 				enteredTerms: data.updatedTerms,
 				selectedTerm: data.updatedTerm
-			});
-		});
-	};
-
-	onTermListToggle = () => {
-		this.setState(prevState => {
-			return Object.assign({}, prevState, {
-				expandedTerms: !prevState.expandedTerms
 			});
 		});
 	};
@@ -231,7 +204,6 @@ class Searchbox extends Component {
 	};
 
 	onTermChange = (value) => {
-		let suggestions = [];
 		if (value || value === '') {
 			this.setState(prevState => {
 				return Object.assign({}, prevState, {
@@ -240,24 +212,8 @@ class Searchbox extends Component {
 				});
 			});
 		}
-		if (value && value.length >= 3) {
-			suggestions = this
-			.props
-			.suggestionsPool
-			.filter(elem => {
-				return elem
-				.toLowerCase()
-				.includes(value.toLowerCase());
-			});
 
-			suggestions.length > 0 && suggestions.unshift(value);
-		}
-		this.setState(prevState => {
-			return Object.assign({}, prevState, {
-				suggestions: suggestions,
-				selectedSuggestion: null
-			});
-		});
+		this.props.onUserInput(value);
 	};
 
 	onTermEnter = (payload) => {
@@ -279,15 +235,15 @@ class Searchbox extends Component {
 		});
 	};
 
-	onTermRemove = () => {
+	onTermRemove = (term) => {
 		this.setState(prevState => {
-			const filtered = removeTerm(prevState.enteredTerms, prevState.selectedTerm);
+			const filtered = removeTerm(prevState.enteredTerms, term);
 			this
 			.props
 			.onTermsChange(filtered);
 			return Object.assign({}, prevState, {
 				enteredTerms: filtered,
-				settingsVisible: !prevState.settingsVisible,
+				settingsVisible: false,
 				selectedTerm: null
 			})
 		});
@@ -316,6 +272,19 @@ class Searchbox extends Component {
 			label
 		}
 	};
+
+	componentWillMount() {
+
+		this
+		.setState(function (prevState) {
+			const enteredTerms = this.props.enteredTerms;
+			return Object.assign({}, prevState, {
+				enteredTerms: prevState
+				.enteredTerms
+				.concat(enteredTerms)
+			});
+		});
+	}
 }
 
 export default Searchbox;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ActiveTermsList from '../components/ActiveTermsList';
-import TermSettings from '../components/TermSettings';
+import ActiveTermsList from '../components_DEPRECATED/ActiveTermsList';
+import TermSettings from '../components_DEPRECATED/TermSettings';
 
 class OutputArea extends Component {
 

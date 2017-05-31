@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import TermsInput from '../components/TermsInput';
-import Controls from '../components/Controls';
-import SuggestionsList from '../components/SuggestionsList';
+import TermsInput from '../components_DEPRECATED/TermsInput';
+import Controls from '../components_DEPRECATED/Controls';
+import SuggestionsList from '../components_DEPRECATED/SuggestionsList';
 
 class InteractionArea extends Component {
 	static propTypes = {

@@ -41,3 +41,16 @@ export const getLeftTerm = (current, allTerms) => {
 	const {index} = findTerm(current, allTerms);
 	return allTerms[index - 1] || allTerms[allTerms.length - 1];
 };
+
+export const changeTermTitle = (term, newTitle, all_terms) => {
+	const {targetTerm, index} = findTerm(term, all_terms);
+	const updatedTerm = Object.assign({}, targetTerm, {
+		value: newTitle
+	});
+	const updatedTerms = all_terms.slice();
+	updatedTerms[index] = updatedTerm;
+	return {
+		updatedTerms,
+		updatedTerm
+	}
+};

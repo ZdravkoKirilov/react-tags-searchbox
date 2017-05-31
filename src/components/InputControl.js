@@ -54,6 +54,7 @@ export default class InputControl extends Component {
 	};
 
 	onKeyUp = (event) => {
+
 		if (event.key === 'Enter') {
 			this.props.onEnterPress({
 				value: this.props.value
@@ -69,6 +70,7 @@ export default class InputControl extends Component {
 				direction: 'down'
 			});
 		}
+
 		if (event.keyCode === InputControl.keycodes.escape) {
 			this.props.onEscapeKey();
 		}

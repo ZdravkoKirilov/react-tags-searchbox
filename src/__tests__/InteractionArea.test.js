@@ -4,7 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import InteractionArea from '../containers/InteractionArea';
+import InteractionArea from '../containers/InteractionArea_DEPRECATEd';
 
 const onTermEnter = jest.fn();
 const onSearchPress = jest.fn();

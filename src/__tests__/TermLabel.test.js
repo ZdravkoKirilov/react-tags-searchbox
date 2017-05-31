@@ -5,7 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import TermLabel from '../components/TermLabel';
+import TermLabel from '../components_DEPRECATED/TermLabel';
 
 const value = 'City';
 const onLabelClick = jest.fn();

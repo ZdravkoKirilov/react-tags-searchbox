@@ -23,9 +23,10 @@
         padding: .5rem;
         margin-right: 1.5rem;
         margin-bottom: .5rem;
+        cursor: pointer;
         .toggle-tag-settings {
           margin-left: .3rem;
-          cursor: pointer;
+
           font-size: 1.3em;
         }
         &.selected {
@@ -38,6 +39,7 @@
       .input-control {
         flex-grow: 1;
         display: flex;
+        position: relative;
         input {
           width: 100%;
           border: 1px solid transparent;
@@ -50,6 +52,8 @@
         background: white;
         z-index: 2;
         position: absolute;
+        min-width: 50%;
+        top: 5rem;
         .suggested-term {
           cursor: pointer;
           padding: 1rem;
@@ -64,8 +68,16 @@
     }
   }
   .controls-area {
+    display: flex;
+    flex-wrap: wrap;
     .add-term {
-      margin-right: 2rem;
+
+    }
+    .btn {
+      margin-bottom: .3rem;
+      margin-right: .2rem;
+      flex-grow: 1;
+      max-height: 3.2rem;
     }
   }
   .settings-modal {

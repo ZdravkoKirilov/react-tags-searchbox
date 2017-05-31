@@ -5,7 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import TermSettings from '../components/TermSettings';
+import TermSettings from '../components_DEPRECATED/TermSettings';
 
 let onTermRemove = jest.fn();
 let onClose = jest.fn();

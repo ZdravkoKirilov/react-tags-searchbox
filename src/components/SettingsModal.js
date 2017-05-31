@@ -11,6 +11,7 @@ export default class SettingsModal extends Component {
 		isVisible: PropTypes.bool.isRequired,
 		labels: PropTypes.object,
 		onLabelClick: PropTypes.func.isRequired,
+		onTitleChange: PropTypes.func.isRequired,
 		onClose: PropTypes.func.isRequired,
 		onTermRemove: PropTypes.func.isRequired,
 		selectedTerm: PropTypes.any,
@@ -33,7 +34,7 @@ export default class SettingsModal extends Component {
 	root = null;
 
 	render = () => {
-		const {isVisible, labels, selectedTerm, onLabelClick, onTermRemove} = this.props;
+		const {isVisible, labels, selectedTerm, onLabelClick} = this.props;
 		const CSSClass = classNames('settings-modal', {
 			'visible-modal': isVisible,
 			'hidden-modal': !isVisible
@@ -46,14 +47,18 @@ export default class SettingsModal extends Component {
 
 			<div className={CSSClass}
 				 tabIndex={0}
-				 ref={e => (this.input = e)}
+				 ref={e => (this.wrapper = e)}
 				 onKeyUp={this.onKeyUp}
 			>
 
 				<div className="modal-content">
 
 					<div className="modal-header">
-						<h3 className="modal-title">{selectedTerm ? selectedTerm.value : ''}</h3>
+						<h3 contentEditable={true}
+							className="modal-title"
+							title="Click to edit"
+							onBlur={this.onTitleChange}
+						>{selectedTerm ? selectedTerm.value : ''}</h3>
 						<span
 							className="close"
 							onClick={this.onClose}
@@ -72,7 +77,7 @@ export default class SettingsModal extends Component {
 						<div className="modal-body-right">
 							<h5>Edit</h5>
 							<p className="btn btn-danger remove"
-							   onClick={onTermRemove}
+							   onClick={this.onTermRemove}
 							   tabIndex={0}
 							   onKeyUp={this.onTermRemove_keyboard}
 							>
@@ -85,6 +90,73 @@ export default class SettingsModal extends Component {
 				</div>
 			</div>
 		)
+	};
+
+	onTitleChange = (event) => {
+		const newTitle = event.target.textContent;
+		this.props.onTitleChange({
+			value: this.props.selectedTerm.value,
+			label: this.props.selectedTerm.label
+		}, newTitle);
+	};
+	onClose = () => {
+		this.props.onClose('', true);
+	};
+
+	onClose_keyboard = (event) => {
+		event.stopPropagation();
+		if (event.key === 'Enter' || event.keyCode === SettingsModal.keycodes.escape) {
+			this.onClose();
+		}
+	};
+
+	onTermRemove = () => {
+		this.props.onTermRemove({
+			value: this.props.selectedTerm.value,
+			label: this.props.selectedTerm.label
+		});
+	};
+
+	onTermRemove_keyboard = (event) => {
+		event.stopPropagation();
+		if (event.key === 'Enter') {
+			this.props.onTermRemove({
+				value: this.props.selectedTerm.value,
+				label: this.props.selectedTerm.label
+			});
+		}
+		if (event.keyCode === SettingsModal.keycodes.escape) {
+			this.onClose();
+		}
+	};
+
+	onKeyUp = (event) => {
+		if (event.keyCode === SettingsModal.keycodes.left_arrow) {
+			this.props.onArrowKey({
+				direction: 'left'
+			});
+		}
+		if (event.keyCode === SettingsModal.keycodes.right_arrow) {
+			this.props.onArrowKey({
+				direction: 'right'
+			});
+		}
+		if (event.keyCode === SettingsModal.keycodes.backspace) {
+			this.props.onArrowKey({
+				direction: 'right'
+			});
+		}
+
+		if (event.keyCode === SettingsModal.keycodes.escape) {
+			this.onClose();
+		}
+
+		if (event.keyCode === SettingsModal.keycodes.del) {
+			this.props.onTermRemove({
+				value: this.props.selectedTerm.value,
+				label: this.props.selectedTerm.label
+			});
+		}
 	};
 
 	composeLabels = (labels, selectedTerm, onLabelClick) => {
@@ -117,56 +189,9 @@ export default class SettingsModal extends Component {
 		return _labels;
 	};
 
-	onClose = () => {
-		this.props.onClose('', true);
-	};
-
-	onClose_keyboard = (event) => {
-		event.stopPropagation();
-		if (event.key === 'Enter' || event.keyCode === SettingsModal.keycodes.escape) {
-			this.onClose();
-		}
-	};
-
-	onTermRemove_keyboard = (event) => {
-		event.stopPropagation();
-		if (event.key === 'Enter') {
-			this.props.onTermRemove();
-		}
-		if (event.keyCode === SettingsModal.keycodes.escape) {
-			this.onClose();
-		}
-	};
-
-	onKeyUp = (event) => {
-		if (event.keyCode === SettingsModal.keycodes.left_arrow) {
-			this.props.onArrowKey({
-				direction: 'left'
-			});
-		}
-		if (event.keyCode === SettingsModal.keycodes.right_arrow) {
-			this.props.onArrowKey({
-				direction: 'right'
-			});
-		}
-		if (event.keyCode === SettingsModal.keycodes.backspace) {
-			this.props.onArrowKey({
-				direction: 'right'
-			});
-		}
-
-		if (event.keyCode === SettingsModal.keycodes.escape) {
-			this.onClose();
-		}
-
-		if (event.keyCode === SettingsModal.keycodes.del) {
-			this.props.onTermRemove();
-		}
-	};
-
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.isVisible !== this.props.isVisible) {
-			this.input.focus();
+			this.wrapper.focus();
 		}
 	}
 }

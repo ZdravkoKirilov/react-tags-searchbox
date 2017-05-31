@@ -5,7 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import Controls from '../components/Controls';
+import Controls from '../components_DEPRECATED/Controls';
 
 let onAddClick = jest.fn();
 let onSearchPress = jest.fn();

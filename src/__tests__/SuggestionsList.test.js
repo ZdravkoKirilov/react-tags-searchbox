@@ -5,7 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
-import SuggestionsList from '../components/SuggestionsList';
+import SuggestionsList from '../components_DEPRECATED/SuggestionsList';
 
 let suggestions = ['London', 'England'];
 let onSuggestionClick = jest.fn();

@@ -266,7 +266,6 @@ class Searchbox extends Component {
 	};
 
 	componentWillMount() {
-
 		this
 		.setState(function (prevState) {
 			const enteredTerms = this.props.enteredTerms.map(({value, label}) => {

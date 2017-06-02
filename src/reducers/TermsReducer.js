@@ -55,6 +55,7 @@ export const changeTermTitle = (term, newTitle, all_terms) => {
 	}
 };
 
+
 export const composeTerms = (payload) => {
 	const result = payload
 	.value

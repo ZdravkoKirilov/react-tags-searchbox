@@ -6,6 +6,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import InputControl from './InputControl'
 import Term from './Term';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 export default class TermsArea extends Component {
 
@@ -30,7 +31,7 @@ export default class TermsArea extends Component {
 		const terms = enteredTerms.map((term, index) => {
 			const isSelected = this.isSelected(term, selectedTerm);
 			return <Term
-				key={index}
+				key={`${term.uniqueID}`}
 				value={term.value}
 				onSettingsClick={onSettingsClick}
 				onRemove={onTermRemove}
@@ -43,7 +44,14 @@ export default class TermsArea extends Component {
 		return (
 			<div className="terms-area">
 				<div className="entered-terms">
-					{terms}
+					<ReactCSSTransitionGroup
+						transitionName="slide"
+						transitionEnterTimeout={200}
+						transitionLeaveTimeout={200}
+					>
+						{terms}
+					</ReactCSSTransitionGroup>
+
 					<InputControl onEnterPress={onTermEnter}
 								  value={currentInputValue}
 								  onChangeCallback={onTermChange}

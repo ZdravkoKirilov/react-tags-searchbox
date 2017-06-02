@@ -1,6 +1,6 @@
 {
   "name": "react-tags-searchbox",
-  "version": "0.1.4",
+  "version": "0.2.4",
   "private": false,
   "author": "Zdravko Kirilov",
   "repository": {
@@ -21,7 +21,9 @@
     "classnames": "^2.2.5",
     "prop-types": "^15.5.6",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-addons-css-transition-group": "^15.5.2",
+    "react-dom": "^15.4.2",
+    "react-simple-contenteditable": "0.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.0",

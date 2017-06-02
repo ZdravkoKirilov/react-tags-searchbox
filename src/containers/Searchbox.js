@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {removeTerm, enterTerm, addTermLabel, getLeftTerm, getRightTerm, changeTermTitle} from '../reducers/TermsReducer';
+import {
+	removeTerm,
+	enterTerm,
+	addTermLabel,
+	getLeftTerm,
+	getRightTerm,
+	changeTermTitle,
+	composeTerms
+} from '../reducers/TermsReducer';
 import '../styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -217,12 +225,12 @@ class Searchbox extends Component {
 	};
 
 	onTermEnter = (payload) => {
-		(payload || this.state.currentInputValue) && this.setState(prevState => {
+		(payload.value || this.state.currentInputValue) && this.setState(prevState => {
 			payload = payload || {value: this.state.currentInputValue};
 			if (prevState.enteredTerms.includes(payload)) {
 				return prevState;
 			} else {
-				const updatedTerms = enterTerm(prevState.enteredTerms, this.composeTerm(payload));
+				const updatedTerms = enterTerm(prevState.enteredTerms, composeTerms(payload));
 				this
 				.props
 				.onTermsChange(updatedTerms);
@@ -257,27 +265,18 @@ class Searchbox extends Component {
 		.onSearchPress(terms);
 	};
 
-	composeTerm = (payload) => {
-		const parts = payload.value.split(':');
-		let value, label;
-		if (parts.length > 1) {
-			label = parts.shift();
-			value = parts.join('');
-		} else {
-			label = '';
-			value = payload.value;
-		}
-		return {
-			value,
-			label
-		}
-	};
-
 	componentWillMount() {
 
 		this
 		.setState(function (prevState) {
-			const enteredTerms = this.props.enteredTerms;
+			const enteredTerms = this.props.enteredTerms.map(({value, label}) => {
+					return {
+						value,
+						label,
+						uniqueID: value + new Date().getTime()
+					}
+				}
+			);
 			return Object.assign({}, prevState, {
 				enteredTerms: prevState
 				.enteredTerms

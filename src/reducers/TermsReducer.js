@@ -17,7 +17,7 @@ export const removeTerm = (enteredTerms, selectedTerm) => {
 
 export const enterTerm = (enteredTerms, payload) => {
 	const updatedTerms = enteredTerms
-	.concat([payload]);
+	.concat(payload);
 	return updatedTerms;
 };
 
@@ -53,4 +53,23 @@ export const changeTermTitle = (term, newTitle, all_terms) => {
 		updatedTerms,
 		updatedTerm
 	}
+};
+
+export const composeTerms = (payload) => {
+	const result = payload
+	.value
+	.replace(/ and /gi, ' AND ')
+	.split(' AND ')
+	.map(elem => {
+		return elem.split(':');
+	})
+	.map(elem => {
+		const value = elem.length > 1 ? elem[1] : elem[0];
+		return {
+			label: elem.length > 1 ? elem[0] : null,
+			value,
+			uniqueID: value + new Date().getTime() + Math.random()
+		}
+	});
+	return result;
 };

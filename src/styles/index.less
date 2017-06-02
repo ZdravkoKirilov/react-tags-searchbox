@@ -1,3 +1,4 @@
+@import "./animations.css";
 @search-term-background: #ccc;
 .searchbox-component {
   font-size: 100%;
@@ -15,8 +16,11 @@
       display: flex;
       flex-grow: 1;
       flex-wrap: wrap;
+      &>span {
+        display: flex;
+        flex-wrap: wrap;
+      }
       .search-term {
-        display: inline-flex;
         border-radius: 3px;
         background: @search-term-background;
         position: relative;
@@ -130,10 +134,11 @@
     .modal-header {
       position: relative;
       .modal-title {
+        font-size: 1.3em;
         flex-grow: 1;
         &:active, &:focus {
           width: 90%;
-          outline: dotted;
+          outline: none;
         }
       }
       .close {

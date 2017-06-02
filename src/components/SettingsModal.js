@@ -5,6 +5,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import TermLabel from './TermLabel'
 import classNames from 'classnames'
+import ContentEditable from 'react-simple-contenteditable'
 
 export default class SettingsModal extends Component {
 	static propTypes = {
@@ -54,11 +55,18 @@ export default class SettingsModal extends Component {
 				<div className="modal-content">
 
 					<div className="modal-header">
-						<h3 contentEditable={true}
-							className="modal-title"
-							title="Click to edit"
-							onBlur={this.onTitleChange}
-						>{selectedTerm ? selectedTerm.value : ''}</h3>
+						{/*<h3 contentEditable={true}*/}
+							{/*className="modal-title"*/}
+							{/*title="Click to edit"*/}
+							{/*onBlur={this.onTitleChange}*/}
+						{/*>{selectedTerm ? selectedTerm.value : ''}</h3>*/}
+						{/*<ContentEditable*/}
+							{/*html={selectedTerm ? selectedTerm.value : ''}*/}
+							{/*className="modal-title"*/}
+							{/*title="Click to edit"*/}
+							{/*onChange={this.onTitleChange}*/}
+							{/*contentEditable="plaintext-only"*/}
+						{/*/>*/}
 						<span
 							className="close"
 							onClick={this.onClose}
@@ -93,6 +101,8 @@ export default class SettingsModal extends Component {
 	};
 
 	onTitleChange = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
 		const newTitle = event.target.textContent;
 		this.props.onTitleChange({
 			value: this.props.selectedTerm.value,
@@ -141,11 +151,11 @@ export default class SettingsModal extends Component {
 				direction: 'right'
 			});
 		}
-		if (event.keyCode === SettingsModal.keycodes.backspace) {
-			this.props.onArrowKey({
-				direction: 'right'
-			});
-		}
+		// if (event.keyCode === SettingsModal.keycodes.backspace && event.target.className !== 'modal-title') {
+		// 	this.props.onArrowKey({
+		// 		direction: 'right'
+		// 	});
+		// }
 
 		if (event.keyCode === SettingsModal.keycodes.escape) {
 			this.onClose();

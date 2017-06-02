@@ -12,6 +12,7 @@ import {
 import '../styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 import TermsArea from '../components/TermsArea'
 import ControlsArea from '../components/ControlsArea'
 import SettingsModal from '../components/SettingsModal'

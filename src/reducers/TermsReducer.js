@@ -4,14 +4,10 @@
 import {findTerm} from '../selectors/Terms';
 
 export const removeTerm = (enteredTerms, selectedTerm) => {
-	const {value, label} = selectedTerm;
-	const filtered = enteredTerms
-	.filter(elem => {
-		const notSameValue = elem.value !== value;
-		const notSameLabel = elem.label !== label;
-		const bothFalsy = !!elem.label !== !!label;
-		return notSameValue || notSameLabel || bothFalsy;
-	});
+
+	const term = findTerm(selectedTerm, enteredTerms);
+	let filtered = enteredTerms.slice();
+	filtered.splice(term.index, 1);
 	return filtered;
 };
 
@@ -54,7 +50,6 @@ export const changeTermTitle = (term, newTitle, all_terms) => {
 		updatedTerm
 	}
 };
-
 
 export const composeTerms = (payload) => {
 	const result = payload

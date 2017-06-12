@@ -6,7 +6,9 @@ export const findTerm = (term, allTerms) => {
 	let index = -1;
 	let element = null;
 	allTerms.forEach((elem, _index) => {
-		let matches = elem.value === term.value && elem.label === term.label;
+		let sameValue = elem.value === term.value;
+		let sameLabel = elem.label === term.label;
+		let matches = sameValue && (sameLabel || (!!elem.label === !!term.label));
 		if (matches) {
 			index = _index;
 			element = elem;
@@ -16,4 +18,11 @@ export const findTerm = (term, allTerms) => {
 		index,
 		targetTerm: element
 	}
+};
+
+export const termsHaveChanged =(oldTerms, newTerms) => {
+
+	let _oldTerms = oldTerms.slice();
+	let _newTerms = newTerms.slice();
+
 };

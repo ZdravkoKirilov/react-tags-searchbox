@@ -9,10 +9,11 @@ class Controls extends Component {
 	render = () => {
 		return (
 			<div className="controls-area">
-				<button className="btn btn-basic add-term" onClick={this.onAddClick}><span
-					className="badge">{this.props.termsCount}</span>
+				<button className="btn btn-basic add-term" onClick={this.onAddClick}>
+					<span className="badge">{this.props.termsCount}</span>
 					<span>Add</span>
 				</button>
+
 				{this.props.searchEnabled ?
 					<button className="btn btn-success start-search" onClick={this.props.onSearchPress}>
 						<span className="glyphicon glyphicon-search"></span>

@@ -7,8 +7,7 @@ const terms = [
 		value: 'Paris',
 		label: 'city'
 	}, {
-		value: 'France',
-		label: null
+		value: 'France'
 	}, {
 		value: 'Spain',
 		label: null

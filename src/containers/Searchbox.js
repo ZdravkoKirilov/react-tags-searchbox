@@ -9,15 +9,15 @@ import {
 	changeTermTitle,
 	composeTerms
 } from '../reducers/TermsReducer';
-import '../styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/index.css';
 
 
 import TermsArea from '../components/TermsArea'
 import ControlsArea from '../components/ControlsArea'
 import SettingsModal from '../components/SettingsModal'
 
-class Searchbox extends Component {
+export default class Searchbox extends Component {
 	static propTypes = {
 		suggestionsPool: PropTypes
 		.arrayOf(PropTypes.string),
@@ -61,7 +61,6 @@ class Searchbox extends Component {
 
 		return (
 			<div className={RootCSS}>
-
 				<TermsArea
 					onTermEnter={onTermEnter}
 					onTermChange={onTermChange}
@@ -104,6 +103,7 @@ class Searchbox extends Component {
 				selectedTerm: updatedTerm
 			});
 		});
+		this.props.onTermsChange(updatedTerms);
 	};
 
 	onEscapeKey = () => {
@@ -181,6 +181,7 @@ class Searchbox extends Component {
 				selectedTerm: data.updatedTerm
 			});
 		});
+		this.props.onTermsChange(data.updatedTerms);
 	};
 
 	onSettingsToggle = (term, fromModal) => {
@@ -221,7 +222,6 @@ class Searchbox extends Component {
 				});
 			});
 		}
-
 		this.props.onUserInput(value);
 	};
 
@@ -250,6 +250,7 @@ class Searchbox extends Component {
 			this
 			.props
 			.onTermsChange(filtered);
+
 			return Object.assign({}, prevState, {
 				enteredTerms: filtered,
 				settingsVisible: false,
@@ -285,5 +286,3 @@ class Searchbox extends Component {
 		});
 	}
 }
-
-export default Searchbox;

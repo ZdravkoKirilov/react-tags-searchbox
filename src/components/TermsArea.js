@@ -21,23 +21,21 @@ export default class TermsArea extends Component {
 		onEscapeKey: PropTypes.func,
 		onSuggestionClick: PropTypes.func,
 		selectedSuggestion: PropTypes.string,
-		selectedTerm: PropTypes.any,
-		labels: PropTypes.object
+		labels: PropTypes.object,
+		onSuggestionClick: PropTypes.func
 	};
 
 	render() {
 		const {onTermEnter, currentInputValue, onTermChange, onSuggestionClick, selectedSuggestion,
-			enteredTerms, onSettingsClick, suggestions, onArrowKey, onEscapeKey, selectedTerm, labels, onTermRemove} = this.props;
-		const terms = enteredTerms.map((term, index) => {
-			const isSelected = this.isSelected(term, selectedTerm);
+			enteredTerms, onSettingsClick, suggestions, onArrowKey, onEscapeKey, labels, onTermRemove} = this.props;
+		const terms = enteredTerms.map((term) => {
 			return <Term
 				key={`${term.uniqueID}`}
 				value={term.value}
 				onSettingsClick={onSettingsClick}
 				onRemove={onTermRemove}
-				isSelected={isSelected}
 				label={term.label}
-				labels={labels}
+				labelStyle={this.findTermLabelStyle(term.label, labels)}
 			/>
 		});
 
@@ -66,11 +64,10 @@ export default class TermsArea extends Component {
 		)
 	}
 
-	isSelected = (term, selectedTerm) => {
-		term = term || {};
-		selectedTerm = selectedTerm || {};
-		const hasSameValue = term.value === selectedTerm.value;
-		const hasSameLabel = term.label === selectedTerm.label || !!term.label === !!selectedTerm.label;
-		return hasSameValue && hasSameLabel;
-	};
+	findTermLabelStyle = (_label, total_labels) => {
+		const currentLabel = _label ? _label.toLowerCase() : '';
+		const capitalizedLabel = currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1);
+		const label = total_labels[currentLabel] || total_labels[capitalizedLabel];
+		return label ? label.style : undefined;
+	}
 }

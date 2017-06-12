@@ -8,21 +8,15 @@ class Term extends Component {
 		onRemove: PropTypes.func.isRequired,
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string,
-		labels: PropTypes.object,
-		isSelected: PropTypes.bool.isRequired,
 		labelStyle: PropTypes.object
 	};
 	static defaultProps = {
-		labels: {},
-		isSelected: false,
 		value: '',
 		label: ''
 	};
 	render = () => {
-		const labelStyle = this.getLabelStyle();
-		const CSSClass = classNames('search-term', {
-			'selected': this.props.isSelected
-		});
+		const {labelStyle} = this.props;
+		const CSSClass = classNames('search-term');
 
 		return (
 			<div className={CSSClass} style={labelStyle}>
@@ -52,14 +46,6 @@ class Term extends Component {
 			label
 		});
 	};
-
-	getLabelStyle = () => {
-		const currentLabel = this.props.label ? this.props.label.toLowerCase() : '';
-		const capitalizedLabel = currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1);
-		const label = this.props.labels[currentLabel] || this.props.labels[capitalizedLabel];
-		const labelStyle = label ? label.style : undefined;
-		return labelStyle;
-	}
 }
 
 export default Term;

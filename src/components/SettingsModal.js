@@ -60,13 +60,14 @@ export default class SettingsModal extends Component {
 							{/*title="Click to edit"*/}
 							{/*onBlur={this.onTitleChange}*/}
 						{/*>{selectedTerm ? selectedTerm.value : ''}</h3>*/}
-						{/*<ContentEditable*/}
-							{/*html={selectedTerm ? selectedTerm.value : ''}*/}
-							{/*className="modal-title"*/}
-							{/*title="Click to edit"*/}
-							{/*onChange={this.onTitleChange}*/}
-							{/*contentEditable="plaintext-only"*/}
-						{/*/>*/}
+
+						<ContentEditable
+							html={selectedTerm ? selectedTerm.value : ''}
+							className="modal-title"
+							title="Click to edit"
+							onChange={this.onTitleChange}
+							contentEditable="plaintext-only"
+						/>
 						<span
 							className="close"
 							onClick={this.onClose}

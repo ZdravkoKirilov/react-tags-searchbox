@@ -16,7 +16,8 @@ class TermLabel extends Component {
 	};
 
 	onClick = () => {
-		this.props.onLabelClick(this.props.value);
+		let value = this.props.value === 'None' ? '' : this.props.value;
+		this.props.onLabelClick(value);
 	};
 
 	onKeyUp = (event) => {
